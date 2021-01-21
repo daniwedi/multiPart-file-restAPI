@@ -1,0 +1,55 @@
+#%RAML 1.0
+title: File API
+version: 1.0
+baseUri: http://localhost:8081/api
+description: API Specification for File Base operation.
+
+/file:
+  /{file_id}:
+    get:
+      responses:
+        200:
+          description: File with request ID
+          headers:
+            Content-Type:
+                displayName:  Content-type
+                description: file MIME type
+                type: string 
+                required: true
+          body:
+            binary/octet-stream:
+              type: file
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                "status":"succesfully deleted",
+                "file_id":"UP16AL1234DLXCYi89hi"
+                }
+      
+        
+
+      
+  post:
+    description: write file to location
+    body:
+      multipart/form-data:
+        properties:
+          fileName:
+            description: The name of the file  which needs to update to be uploaded
+            type: file
+            fileTypes:  ['*/*']
+            maxLength: 10485760 # 10 MB = 10485760 Bytes
+    responses:
+      201:
+         body:
+           application/json:
+             example:
+                {
+                  "status":"success",
+                "file_id":"UP16AL1234DLXCYi89hi",
+                "fileName":"contacts.csv"
+                }
